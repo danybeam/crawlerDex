@@ -1,0 +1,16 @@
+language: python
+python:
+- '3.6'
+install:
+- python -m setup install
+script:
+- python -m pytest -ra
+before_deploy: pip install twine
+deploy:
+  provider: script
+  script: python setup.py upload -u $PYPI_USER -p $PYPI_PASSWORD
+  on:
+    tags: true
+env:
+  global:
+    - PYPI_USER=danybeam
