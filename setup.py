@@ -18,7 +18,7 @@ DESCRIPTION = 'A self filling pokedex for PC'
 URL = 'https://github.com/danybeam/crawlerDex'
 EMAIL = 'danybeam@gmail.com'
 AUTHOR = 'danybeam'
-REQUIRES_PYTHON = '>=3.6.0'
+REQUIRES_PYTHON = '>=3.7.0'
 VERSION = None
 LICENSE = 'MIT'
 

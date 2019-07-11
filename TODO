@@ -1,7 +1,10 @@
+# CORE
 [] get pokemon base stats
 [] get pokemon evolution data
 [] get pokemon attack list
     [] mark attacks as egg moves
 [] get pokemon egg group
 [] get pokemon level up speed
+
+# EXTRAS
 [] build egg group + attack connection graph (for egg moves)
