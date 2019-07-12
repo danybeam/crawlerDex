@@ -59,6 +59,7 @@ def getPKMNBaseStats(soup):
         stats[referenceString[counter]] = int(i.find_all('div')[1].string)
         counter += 1
     return dict(stats)
+
 def getPKMNTypes(soup):
     pass
 
