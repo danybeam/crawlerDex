@@ -13,6 +13,9 @@
     [] power
     [] accuracy
     [] side effects
+[] get all abilities
+    [] effects
+    [] conditions
 
 # EXTRAS
 [] build egg group + attack connection graph (for egg moves)
