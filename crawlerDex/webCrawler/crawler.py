@@ -4,28 +4,26 @@ import re
 from ruamel.yaml import YAML
 import urllib.request as urllib
 
+import sys
+
 def getPKMNS():
     baseUrl = 'https://bulbapedia.bulbagarden.net'
     startUrl = '/wiki/Bulbasaur_(Pok%C3%A9mon)'
     url = baseUrl + startUrl
-
     soup,link = requestPage(url)
-    print(link)
-    input()
 
     while link != startUrl and link != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and link != '/wiki/Pok%C3%A9mon_(species)':
+        PKMNName = getPKMNName(soup)
+        PKMNBaseStats = getPKMNBaseStats(soup)
+        data = {}
+        data["Name"] = str(PKMNName)
+        data["Base Stats"] = dict(PKMNBaseStats)
+        savePKMN(data,pokemon=str(data['Name']))
+
         url = baseUrl + link
         soup,link = requestPage(url)
-        print(link)
-        input()
 
     print('end')
-
-def savePKMN(data,pokemon="Missingno",filePath=os.path.abspath(__file__)[:-10] + "..\\data\\"):
-    filePath = filePath + pokemon + ".dex"
-    dex = open(filePath,'a+')
-    dex.write(data)
-    dex.close()
 
 def requestPage(url):
     req = urllib.Request(
@@ -41,6 +39,28 @@ def requestPage(url):
 
     return soup, link["href"]
 
+def getPKMNName(soup):
+    name = soup.body.find_next('td',width='50%')
+    name = name.big.big.b.string
+    return name
+
+def getPKMNBaseStats(soup):
+    referenceString = ['HP','Attack','Defense','Sp. Atk', 'Sp. Def', 'Speed']
+    counter = 0
+    stats = {}
+    table = soup.body.find_next('table',style='background: #78C850; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; -icab-border-radius: 10px; -o-border-radius: 10px;; border: 3px solid #A040A0; white-space:nowrap')
+    table = table.find_all('tr',style=re.compile(r'text-align:center'))
+    for i in table:
+        stats[referenceString[counter]] = int(i.find_all('div')[1].string)
+        counter += 1
+    return stats
+
+def savePKMN(data,pokemon="Missingno",filePath=os.path.abspath(__file__)[:-10] + "..\\data\\"):
+    yaml = YAML()
+    filePath = filePath + pokemon + ".dex"
+    dex = open(filePath,'w')
+    yaml.dump(data,dex)
+    dex.close()
     
 if __name__ == "__main__":
     print()

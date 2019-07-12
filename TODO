@@ -1,5 +1,6 @@
 # CORE
-[] get pokemon base stats
+[x] get pokemon name
+[x] get pokemon base stats
 [] get pokemon evolution data
 [] get pokemon attack list
     [] mark attacks as egg moves
