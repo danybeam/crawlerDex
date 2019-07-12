@@ -1,11 +1,25 @@
 # CORE
 [x] get pokemon name
 [x] get pokemon base stats
+[] get pokemon types
+[] get pokemon abilities
 [] get pokemon evolution data
 [] get pokemon attack list
     [] mark attacks as egg moves
+    [] mark attacks as TMs
 [] get pokemon egg group
 [] get pokemon level up speed
+[] get all attacks
+    [] power
+    [] accuracy
+    [] side effects
 
 # EXTRAS
 [] build egg group + attack connection graph (for egg moves)
+[] change working directory to relevant folder
+    [] data/pokemons
+    [] data/abilities
+[] Type weakness matrix
+    [] number to type
+    [] type to number
+    [] 2D matrix
