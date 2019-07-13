@@ -63,7 +63,7 @@ def getPKMNBaseStats(soup):
 def getPKMNTypes(soup):
     pass
 
-def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\"):
+def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\pkmns\\"):
     if not os.path.exists(filePath):
         os.makedirs(filePath)
     yaml = YAML()
