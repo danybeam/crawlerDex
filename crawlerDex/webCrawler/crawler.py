@@ -14,9 +14,11 @@ def getPKMNS():
     while link != startUrl and link != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and link != '/wiki/Pok%C3%A9mon_(species)':
         PKMNName = getPKMNName(soup)
         PKMNBaseStats = getPKMNBaseStats(soup)
+        PKMNTypes = getPKMNTypes(soup)
         data = {}
         data["Name"] = PKMNName
         data["Base Stats"] = PKMNBaseStats
+        data["Types"] = PKMNTypes
 
         print(data["Name"])
         savePKMN(data,pokemon=str(data['Name']))
@@ -61,7 +63,12 @@ def getPKMNBaseStats(soup):
     return dict(stats)
 
 def getPKMNTypes(soup):
-    pass
+    types = soup.find_all('a',title=re.compile(r'\(type\)'))[0:2]
+    data = [types[0].b.string]
+    if types[1].b.string != 'Unknown':
+        data.append(types[1].b.string)        
+    data = [str(i) for i in data]
+    return data
 
 def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\pkmns\\"):
     if not os.path.exists(filePath):
