@@ -8,17 +8,16 @@ import urllib.request as urllib
 def getPKMNS():
     baseUrl = 'https://bulbapedia.bulbagarden.net'
     startUrl = '/wiki/Bulbasaur_(Pok%C3%A9mon)'
+    #startUrl = '/wiki/Rockruff_(Pok%C3%A9mon)'
     url = baseUrl + startUrl
     soup,link = requestPage(url)
 
     while link != startUrl and link != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and link != '/wiki/Pok%C3%A9mon_(species)':
-        PKMNName = getPKMNName(soup)
-        PKMNBaseStats = getPKMNBaseStats(soup)
-        PKMNTypes = getPKMNTypes(soup)
         data = {}
-        data["Name"] = PKMNName
-        data["Base Stats"] = PKMNBaseStats
-        data["Types"] = PKMNTypes
+        data["Name"] = getPKMNName(soup)
+        data["Base Stats"] = getPKMNBaseStats(soup)
+        data["Types"] = getPKMNTypes(soup)
+        data["Abilities"] = getPKMNAbilities(soup)
 
         print(data["Name"])
         savePKMN(data,pokemon=str(data['Name']))
@@ -63,12 +62,26 @@ def getPKMNBaseStats(soup):
     return dict(stats)
 
 def getPKMNTypes(soup):
-    types = soup.find_all('a',title=re.compile(r'\(type\)'))[0:2]
+    types = soup.body.find_all('a',title=re.compile(r'\(type\)'))[0:2]
     data = [types[0].b.string]
     if types[1].b.string != 'Unknown':
         data.append(types[1].b.string)        
     data = [str(i) for i in data]
     return data
+
+def getPKMNAbilities(soup):
+    html1 = soup.body.find_all('a',title=re.compile(r'\(Ability\)'))
+    Abilities = dict()
+    for item in html1:
+        if item.string in Abilities:
+            continue
+        if item.parent.has_attr("style") and item.parent["style"] == "display: none":
+            continue
+        if item.parent.small:
+            Abilities[str(item.string)] = str(item.parent.small.string).strip()
+        else:
+            Abilities[str(item.string)] = "Ability"
+    return Abilities
 
 def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\pkmns\\"):
     if not os.path.exists(filePath):
