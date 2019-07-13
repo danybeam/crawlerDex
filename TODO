@@ -1,7 +1,7 @@
 # CORE
 [x] get pokemon name
 [x] get pokemon base stats
-[] get pokemon types
+[x] get pokemon types
 [] get pokemon abilities
 [] get pokemon evolution data
 [] get pokemon attack list
