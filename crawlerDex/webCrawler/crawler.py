@@ -15,7 +15,7 @@ def getPKMNS():
     while link != startUrl and url[:-30] != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and url[:-28] != '/wiki/Pok%C3%A9mon_(species)':
         data = {}
         data["Name"] = getPKMNName(soup)
-        data["Base Stats"] = getPKMNBaseStats(soup)
+        data["Base Stats"] = getPKMNBaseStats(soup,data["Name"])
         data["Forms"] = []
         for key in data["Base Stats"].keys():
             data["Forms"].append(str(key))
@@ -53,14 +53,14 @@ def getPKMNName(soup):
         name = name[:-1] + 'M'
     return name
 
-def getPKMNBaseStats(soup):
+def getPKMNBaseStats(soup,name="Missingno"):
     referenceString = ['HP','Attack','Defense','Sp. Atk', 'Sp. Def', 'Speed']
     stats = {}
     tables = soup.body.find_all('table',style=re.compile(r'background: #......; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; -icab-border-radius: 10px; -o-border-radius: 10px;; border: 3px solid #......; white-space:nowrap'))
     for table in tables:
         form = str(table.previous_sibling.previous_sibling.string)
         if form.endswith("stats"):
-            form = form.replace("stats","form")
+            form = name
         stats[form] = {}
         ref_table = table.find_all('tr',style=re.compile(r'text-align:center'))
         counter = 0
