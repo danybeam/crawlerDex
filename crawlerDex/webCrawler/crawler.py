@@ -6,9 +6,10 @@ import urllib.request as urllib
 
 def getPKMNS():
     baseUrl = 'https://bulbapedia.bulbagarden.net'
-    startUrl = '/wiki/Bulbasaur_(Pok%C3%A9mon)'
+    #startUrl = '/wiki/Bulbasaur_(Pok%C3%A9mon)'
     #startUrl = '/wiki/Rockruff_(Pok%C3%A9mon)'
     #startUrl = '/wiki/Lycanroc_(Pok%C3%A9mon)'
+    startUrl = '/wiki/Eevee_(Pok%C3%A9mon)'
     url = baseUrl + startUrl
     soup,link = requestPage(url)
 
@@ -21,6 +22,7 @@ def getPKMNS():
             data["Forms"].append(str(key))
         data["Types"] = getPKMNTypes(soup)
         data["Abilities"] = getPKMNAbilities(soup)
+        data["Evolutions"] = getPKMNEvos(soup,data["Name"])
 
         print(data["Name"])
         savePKMN(data,pokemon=str(data['Name']))
@@ -91,6 +93,31 @@ def getPKMNAbilities(soup):
             Abilities[str(item.string)] = "Ability"
     return Abilities
 
+def notImage(href):
+    return href and not re.compile(r'png').search(href)
+
+# TODO Fix forms for mutli-evos (rockruff, eevee, oddish, etc)
+# TODO Fix offset for eevee
+def getPKMNEvos(soup,pokemon="Missingno"):
+    stepOver = 1
+    method = None
+    evoName = ''
+    evos = {}
+    if pokemon == "Eevee":
+        stepOver = 8
+
+    table = soup.body.find_all('table',style=re.compile(r'margin:auto; text-align:center; background: #......; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; -icab-border-radius: 10px; -o-border-radius: 10px; border: 3px solid #......;'))[0]
+    for evo_table in table:
+        evo_table = table.find_all('td')
+        for i in range(len(evo_table)):
+            #print(table[i])
+            if evo_table[i].find_all(string=re.compile(r'[→↓]')):
+                method = str(evo_table[i].find_next('a',href=notImage).string)
+                evoName = str(evo_table[i+stepOver].find_next('a',title=re.compile(r'Pokémon')).span.string)
+                evos[evoName] = method
+                print()
+    return dict(evos)
+
 def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\pkmns\\"):
     if not os.path.exists(filePath):
         os.makedirs(filePath)
@@ -101,5 +128,4 @@ def savePKMN(data,pokemon="Missingno",filePath=os.getcwd() + "\\data\\pkmns\\"):
     dex.close()
     
 if __name__ == "__main__":
-    print(os.getcwd())
     getPKMNS()
