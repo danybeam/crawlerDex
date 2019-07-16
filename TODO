@@ -1,6 +1,7 @@
 # CORE
 [x] get pokemon name
 [x] get pokemon base stats
+    [] get multiple tables for diferent forms
 [x] get pokemon types
 [x] get pokemon abilities
 [] get potential forms
