@@ -1,20 +1,24 @@
-# CORE
-[x] get pokemon name
-[x] get pokemon base stats
-    [x] get multiple tables for diferent forms
-[x] get pokemon types
-[x] get pokemon abilities
-[x] get potential forms
+# CORE Pokemon
+[✓] get pokemon name
+[✓] get pokemon base stats
+    [✓] get multiple tables for diferent forms
+[✓] get pokemon types
+[✓] get pokemon abilities
+[✓] get potential forms
 [] get pokemon evolution data
 [] get pokemon attack list
     [] mark attacks as egg moves
     [] mark attacks as TMs
 [] get pokemon egg group
 [] get pokemon level up speed
+
+# CORE Attacks
 [] get all attacks
     [] power
     [] accuracy
     [] side effects
+
+# CORE Abilities
 [] get all abilities
     [] effects
     [] conditions
