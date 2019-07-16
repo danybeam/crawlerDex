@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import os
 import re
 from ruamel.yaml import YAML
-import time
 import urllib.request as urllib
 
 def getPKMNS():
@@ -12,7 +11,7 @@ def getPKMNS():
     url = baseUrl + startUrl
     soup,link = requestPage(url)
 
-    while link != startUrl and link != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and link != '/wiki/Pok%C3%A9mon_(species)':
+    while link != startUrl and url[:-30] != '/wiki/%3F%3F%3F_(Pok%C3%A9mon)' and url[:-28] != '/wiki/Pok%C3%A9mon_(species)':
         data = {}
         data["Name"] = getPKMNName(soup)
         data["Base Stats"] = getPKMNBaseStats(soup)
